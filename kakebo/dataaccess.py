@@ -5,7 +5,7 @@ import sqlite3
 class DBmanager():
     def __init__(self, ruta_baseDatos):
         self.database_path = ruta_baseDatos
-        
+
     def __toDict__(self, cur):
         # Obtenemos los datos de la consulta
         claves = cur.description

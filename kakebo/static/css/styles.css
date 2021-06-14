@@ -1,1 +1,3 @@
-.tabla-movimientos tbody 
+.tabla-movimientos tbody tr:hover {
+    background-color: aquamarine;
+}

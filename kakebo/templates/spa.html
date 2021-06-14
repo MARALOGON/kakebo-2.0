@@ -28,10 +28,11 @@
             </table>
         </div>
     </section>
-    <hr> 
+    <hr>
     <div class="detail-movimiento container">
         <form>
             <div class="row">
+                <input type="hidden" id="idMovimiento">
                 <div class="column">
                     <label for="fecha">Fecha</label>
                     <input type="date" name="fecha" id="fecha">
@@ -64,7 +65,9 @@
             </div>
             <div class="row">
                 <div class="column">
-                    <button id="modificar">Modificar</button>
+                    <button id="modificar" >Modificar</button>
+                    <button id="borrar" >Borrar</button>
+                    <button class="float-right" id="crear" >Crear</button>
                 </div>
             </div>
         </form>

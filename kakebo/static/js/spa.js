@@ -6,6 +6,7 @@ const categorias = {
 }
 
 let losMovimientos 
+xhr = new XMLHttpRequest()
 
 function recibeRespuesta() {
     if (this.readyState === 4 && (this.status === 200 || this.status === 201)) {
@@ -84,7 +85,6 @@ function muestraMovimientos() {
     }
 }
 
-xhr = new XMLHttpRequest()
 
 function llamaApiMovimientos() {
     xhr.open('GET', `http://localhost:5000/api/v1/movimientos`, true)
@@ -106,6 +106,41 @@ function capturaFormMovimiento() {
     return movimiento    
 }
 
+
+function validar(movimiento) {
+    if (!movimiento.fecha) {
+        alert("Fecha obligatoria")
+        return false
+    }
+
+    if (movimiento.concepto === "") {
+        alert("Concepto obligatorio")
+        return false
+    }
+
+    if (!document.querySelector("#gasto").checked && !document.querySelector("#ingreso").checked) {
+        alert("Elija tipo de movimiento")
+        return false
+    }
+
+    if (movimiento.esGasto && !movimiento.categoria) {
+        alert("Debe selecccionar categoria del gasto")
+        return false
+    }
+
+    if (!movimiento.esGasto && movimiento.categoria) {
+        alert("Un ingreso no puede tener categoria")
+        return false
+    }
+
+    if (movimiento.cantidad <= 0) {
+        alert("La cantidad ha de ser positiva")
+        return false
+    }
+
+    return true
+}
+
 function llamaApiModificaMovimiento(ev) {
     ev.preventDefault()
     id = document.querySelector("#idMovimiento").value
@@ -114,6 +149,10 @@ function llamaApiModificaMovimiento(ev) {
         return
     }
     const movimiento = capturaFormMovimiento()
+    if (!validar(movimiento)) {
+        return
+    }
+
 
     xhr.open("PUT", `http://localhost:5000/api/v1/movimiento/${id}`, true)
     xhr.onload = recibeRespuesta
@@ -142,6 +181,10 @@ function llamaApiCreaMovimiento(ev) {
     ev.preventDefault()
 
     const movimiento = capturaFormMovimiento()
+    if (!validar(movimiento)) {
+        return
+    }
+
 
     xhr.open("POST", `http://localhost:5000/api/v1/movimiento`, true)
     xhr.onload = recibeRespuesta
@@ -164,3 +207,4 @@ window.onload = function() {
         .addEventListener("click", llamaApiCreaMovimiento)
 
 }
+
